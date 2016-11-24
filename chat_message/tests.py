@@ -4,6 +4,7 @@ from django.urls import reverse
 from .models import Message
 from chat_room.models import Room
 
+
 class CreateMessageViewTest(TestCase):
     def test_404(self):
         user = User.objects.create_user('user1')
@@ -22,9 +23,7 @@ class CreateMessageViewTest(TestCase):
         user2 = User.objects.create_user('user2')
         chat = Room.objects.create(name='gen', creator=creator)
         self.client.force_login(user2)
-        self.client.post(
-        reverse('create_message', kwargs=dict(room=chat.id)),
-        dict(text='weqweqwe'))
+        self.client.post(reverse('create_message', kwargs=dict(room=chat.id)), dict(text='weqweqwe'))
         message = Message.objects.get()
         self.assertEqual(message.text, 'weqweqwe')
         self.assertEqual(message.author, user2)
@@ -34,10 +33,7 @@ class CreateMessageViewTest(TestCase):
         user2 = User.objects.create_user('user2')
         chat = Room.objects.create(name='gen', creator=creator)
         self.client.force_login(user2)
-        self.client.post(
-            reverse('create_message', kwargs=dict(room=chat.id)),
-            dict(text='weqweqwe')
-        )
+        self.client.post(reverse('create_message', kwargs=dict(room=chat.id)), dict(text='weqweqwe'))
         self.assertEqual(Message.objects.count(), 1)
 
     def test_room_create(self):
@@ -50,9 +46,6 @@ class CreateMessageViewTest(TestCase):
         user = User.objects.create_user('user')
         chat = Room.objects.create(name='gen', creator=user)
         self.client.force_login(user)
-        self.client.post(
-            reverse('create_message', kwargs=dict(room=chat.id)),
-            dict(text='weqweqwe')
-        )
-        response = self.client.get(reverse('create_message', kwargs=dict(room = chat.id)))
+        self.client.post(reverse('create_message', kwargs=dict(room=chat.id)), dict(text='weqweqwe'))
+        response = self.client.get(reverse('create_message', kwargs=dict(room=chat.id)))
         self.assertEqual(response.status_code, 200)
