@@ -13,13 +13,11 @@ class CreateRoomViewTest(TestCase):
         response = self.client.get(reverse('create_message', kwargs=dict(room=123)))
         self.assertEqual(response.status_code, 404)
 
-
     def test_302(self):
         creator = User.objects.create_user('user1')
         chat = Room.objects.create(name='gen', creator=creator)
         response = self.client.get(reverse('create_message', kwargs=dict(room=chat.id)))
         self.assertEqual(response.status_code, 302)
-
 
     def test_send_message(self):
         creator = User.objects.create_user('user1')
@@ -33,7 +31,6 @@ class CreateRoomViewTest(TestCase):
         self.assertEqual(message.text, 'weqweqwe')
         self.assertEqual(message.author, user2)
 
-
     def test_count_message(self):
         creator = User.objects.create_user('user1')
         user2 = User.objects.create_user('user2')
@@ -45,12 +42,10 @@ class CreateRoomViewTest(TestCase):
         )
         self.assertEqual(Message.objects.count(), 1)
 
-
     def test_room_create(self):
         creator = User.objects.create_user('user1')
         Room.objects.create(name='gen', creator=creator)
         self.assertEqual(Room.objects.count(), 1)
-
 
     def test_creator_name_room(self):
         creator = User.objects.create_user('user1')

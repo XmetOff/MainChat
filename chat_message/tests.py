@@ -1,13 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
-
-from TRChat.views import HomePageView
 from .models import Message
 from chat_room.models import Room
 
 class CreateMessageViewTest(TestCase):
-
     def test_404(self):
         user = User.objects.create_user('user1')
         self.client.force_login(user)
@@ -59,8 +56,3 @@ class CreateMessageViewTest(TestCase):
         )
         response = self.client.get(reverse('create_message', kwargs=dict(room = chat.id)))
         self.assertEqual(response.status_code, 200)
-
-
-
-
-
